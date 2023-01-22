@@ -1,0 +1,2 @@
+class Team < Client
+end
