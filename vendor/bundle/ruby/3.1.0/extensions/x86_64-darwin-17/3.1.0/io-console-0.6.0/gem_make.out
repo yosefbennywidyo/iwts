@@ -1,0 +1,19 @@
+current directory: /Users/yb_widyokarsono/Work/yosefbennywidyo/assignment/atask/iwts/vendor/bundle/ruby/3.1.0/gems/io-console-0.6.0/ext/io/console
+/Users/yb_widyokarsono/.asdf/installs/ruby/3.1.2/bin/ruby -I /Users/yb_widyokarsono/.asdf/installs/ruby/3.1.2/lib/ruby/site_ruby/3.1.0 extconf.rb
+checking for termios.h... yes
+checking for cfmakeraw() in termios.h... yes
+checking for sys/ioctl.h... yes
+checking for HAVE_RUBY_FIBER_SCHEDULER_H... yes
+creating Makefile
+
+current directory: /Users/yb_widyokarsono/Work/yosefbennywidyo/assignment/atask/iwts/vendor/bundle/ruby/3.1.0/gems/io-console-0.6.0/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20230122-75495-9duq9u sitelibdir\=./.gem.20230122-75495-9duq9u clean
+
+current directory: /Users/yb_widyokarsono/Work/yosefbennywidyo/assignment/atask/iwts/vendor/bundle/ruby/3.1.0/gems/io-console-0.6.0/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20230122-75495-9duq9u sitelibdir\=./.gem.20230122-75495-9duq9u
+compiling console.c
+linking shared-object io/console.bundle
+
+current directory: /Users/yb_widyokarsono/Work/yosefbennywidyo/assignment/atask/iwts/vendor/bundle/ruby/3.1.0/gems/io-console-0.6.0/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20230122-75495-9duq9u sitelibdir\=./.gem.20230122-75495-9duq9u install
+/usr/local/bin/ginstall -c -m 0755 console.bundle ./.gem.20230122-75495-9duq9u/io

@@ -1,0 +1,16 @@
+current directory: /Users/yb_widyokarsono/Work/yosefbennywidyo/assignment/atask/iwts/vendor/bundle/ruby/3.1.0/gems/debug-1.7.1/ext/debug
+/Users/yb_widyokarsono/.asdf/installs/ruby/3.1.2/bin/ruby -I /Users/yb_widyokarsono/.asdf/installs/ruby/3.1.2/lib/ruby/site_ruby/3.1.0 extconf.rb
+creating Makefile
+
+current directory: /Users/yb_widyokarsono/Work/yosefbennywidyo/assignment/atask/iwts/vendor/bundle/ruby/3.1.0/gems/debug-1.7.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20230122-75495-pwjbou sitelibdir\=./.gem.20230122-75495-pwjbou clean
+
+current directory: /Users/yb_widyokarsono/Work/yosefbennywidyo/assignment/atask/iwts/vendor/bundle/ruby/3.1.0/gems/debug-1.7.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20230122-75495-pwjbou sitelibdir\=./.gem.20230122-75495-pwjbou
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.bundle
+
+current directory: /Users/yb_widyokarsono/Work/yosefbennywidyo/assignment/atask/iwts/vendor/bundle/ruby/3.1.0/gems/debug-1.7.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20230122-75495-pwjbou sitelibdir\=./.gem.20230122-75495-pwjbou install
+/usr/local/bin/ginstall -c -m 0755 debug.bundle ./.gem.20230122-75495-pwjbou/debug

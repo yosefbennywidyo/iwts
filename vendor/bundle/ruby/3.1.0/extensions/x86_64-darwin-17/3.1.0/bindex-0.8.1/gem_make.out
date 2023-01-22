@@ -1,0 +1,15 @@
+current directory: /Users/yb_widyokarsono/Work/yosefbennywidyo/assignment/atask/iwts/vendor/bundle/ruby/3.1.0/gems/bindex-0.8.1/ext/skiptrace
+/Users/yb_widyokarsono/.asdf/installs/ruby/3.1.2/bin/ruby -I /Users/yb_widyokarsono/.asdf/installs/ruby/3.1.2/lib/ruby/site_ruby/3.1.0 extconf.rb
+creating Makefile
+
+current directory: /Users/yb_widyokarsono/Work/yosefbennywidyo/assignment/atask/iwts/vendor/bundle/ruby/3.1.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20230122-75495-f0q5ib sitelibdir\=./.gem.20230122-75495-f0q5ib clean
+
+current directory: /Users/yb_widyokarsono/Work/yosefbennywidyo/assignment/atask/iwts/vendor/bundle/ruby/3.1.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20230122-75495-f0q5ib sitelibdir\=./.gem.20230122-75495-f0q5ib
+compiling cruby.c
+linking shared-object skiptrace/internal/cruby.bundle
+
+current directory: /Users/yb_widyokarsono/Work/yosefbennywidyo/assignment/atask/iwts/vendor/bundle/ruby/3.1.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20230122-75495-f0q5ib sitelibdir\=./.gem.20230122-75495-f0q5ib install
+/usr/local/bin/ginstall -c -m 0755 cruby.bundle ./.gem.20230122-75495-f0q5ib/skiptrace/internal
