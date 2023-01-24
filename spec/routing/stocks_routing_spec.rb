@@ -11,11 +11,11 @@ RSpec.describe StocksController, type: :routing do
     end
 
     it "routes to #show" do
-      expect(get: "/stocks/1").to route_to("stocks#show", id: "1")
+      expect(get: "/stocks/1").to route_to("stocks#show", code: "1")
     end
 
     it "routes to #edit" do
-      expect(get: "/stocks/1/edit").to route_to("stocks#edit", id: "1")
+      expect(get: "/stocks/1/edit").to route_to("stocks#edit", code: "1")
     end
 
 
@@ -24,15 +24,15 @@ RSpec.describe StocksController, type: :routing do
     end
 
     it "routes to #update via PUT" do
-      expect(put: "/stocks/1").to route_to("stocks#update", id: "1")
+      expect(put: "/stocks/1").to route_to("stocks#update", code: "1")
     end
 
     it "routes to #update via PATCH" do
-      expect(patch: "/stocks/1").to route_to("stocks#update", id: "1")
+      expect(patch: "/stocks/1").to route_to("stocks#update", code: "1")
     end
 
     it "routes to #destroy" do
-      expect(delete: "/stocks/1").to route_to("stocks#destroy", id: "1")
+      expect(delete: "/stocks/1").to route_to("stocks#destroy", code: "1")
     end
   end
 end

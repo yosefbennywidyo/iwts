@@ -11,11 +11,11 @@ RSpec.describe TeamsController, type: :routing do
     end
 
     it "routes to #show" do
-      expect(get: "/teams/1").to route_to("teams#show", id: "1")
+      expect(get: "/teams/1").to route_to("teams#show", code: "1")
     end
 
     it "routes to #edit" do
-      expect(get: "/teams/1/edit").to route_to("teams#edit", id: "1")
+      expect(get: "/teams/1/edit").to route_to("teams#edit", code: "1")
     end
 
 
@@ -24,15 +24,15 @@ RSpec.describe TeamsController, type: :routing do
     end
 
     it "routes to #update via PUT" do
-      expect(put: "/teams/1").to route_to("teams#update", id: "1")
+      expect(put: "/teams/1").to route_to("teams#update", code: "1")
     end
 
     it "routes to #update via PATCH" do
-      expect(patch: "/teams/1").to route_to("teams#update", id: "1")
+      expect(patch: "/teams/1").to route_to("teams#update", code: "1")
     end
 
     it "routes to #destroy" do
-      expect(delete: "/teams/1").to route_to("teams#destroy", id: "1")
+      expect(delete: "/teams/1").to route_to("teams#destroy", code: "1")
     end
   end
 end
