@@ -72,5 +72,7 @@ group :test do
   gem "capybara"
   gem 'webdrivers', '~> 5.0', require: false
   gem "simplecov", require: false
+  gem "database_cleaner-active_record"
+  gem "poltergeist"
 end
 
