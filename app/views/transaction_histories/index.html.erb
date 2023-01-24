@@ -1,14 +1,69 @@
-<p style="color: green"><%= notice %></p>
+<div class="col">
+  <h1><%= @current_user.name %> Transaction Histories</h1>
+  <h5>Wallet balance: <%= @wallet_balance %> </h5>
 
-<h1>Transaction histories</h1>
+  <div id="transaction_histories">
+    <% if @transaction_histories.present? %>
+      <%= link_to("Debit", "/#{find_client_type_by_wallet(@current_user.wallet).to_s.downcase}s/#{@current_user.code}/transaction_histories/debit", class: "btn btn-primary") %>
+      <%= link_to("Credit", "/#{find_client_type_by_wallet(@current_user.wallet).to_s.downcase}s/#{@current_user.code}/transaction_histories/credit", class: "btn btn-primary") %>
 
-<div id="transaction_histories">
-  <% @transaction_histories.each do |transaction_history| %>
-    <%= render transaction_history %>
-    <p>
-      <%= link_to "Show this transaction history", transaction_history %>
-    </p>
-  <% end %>
+    <div class="row">
+      <div class="col-md-4 col-md-6 col-md-6 col-md-6">
+        <h3>Debit</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Sender</th>
+              <th>Receiver</th>
+              <th>Amount</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <% @debits.order(created_at: :desc).each do |transaction_history| %>
+            <div id="<%= dom_id transaction_history %>">
+              <tbody>
+                <tr>
+                  <td><%= transaction_history.sender_id.truncate(10) %></td>
+                  <td><%= link_to("View #{find_client_name_by_transaction_history(transaction_history) || @current_user.name} transaction histories", "/#{find_client_path(transaction_history.receiver_id) || "#{find_client_type_by_wallet(@current_user.wallet).to_s.downcase}s/#{@current_user.code}"}/transaction_histories", target: "_blank") %></td>
+                  <td><%= format_amount(transaction_history) %></td>
+                  <td><%= transaction_history.description %></td>
+                </tr>
+              </tbody>
+            </div>
+          <% end %>
+        </table>
+      </div>
+      <div class="col-md-4 col-md-6 col-md-6 col-md-6">
+        <h3>Credit</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Sender</th>
+              <th>Receiver</th>
+              <th>Amount</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <% @credits.order(created_at: :desc).each do |transaction_history| %>
+            <div id="<%= dom_id transaction_history %>">
+              <tbody>
+                <tr>
+                  <td><%= transaction_history.sender_id.truncate(10) %></td>
+                  <td><%= link_to("View #{find_client_name_by_transaction_history(transaction_history) || @current_user.name} transaction histories", "/#{find_client_path(transaction_history.receiver_id)}/transaction_histories", target: "_blank") %></td>
+                  <td><%= format_amount(transaction_history) %></td>
+                  <td><%= transaction_history.description %></td>
+                </tr>
+              </tbody>
+            </div>
+          <% end %>
+        </table>
+      </div>
+    </div>
+    <% else %>
+      <%= link_to("Debit", "/#{find_client_type_by_wallet(@current_user.wallet).to_s.downcase}s/#{@current_user.code}/transaction_histories/debit", class: "btn btn-primary") %>
+      <%= link_to("Credit", "/#{find_client_type_by_wallet(@current_user.wallet).to_s.downcase}s/#{@current_user.code}/transaction_histories/credit", class: "btn btn-primary") %>
+      <p>
+    <% end %>
+  </div>
+  <%= render "go_to_clients_button" %>
 </div>
-
-<%= link_to "New transaction history", new_transaction_history_path %>

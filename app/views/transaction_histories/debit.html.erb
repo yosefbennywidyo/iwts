@@ -1,0 +1,56 @@
+<!-- Debit form -->
+<section>
+<%= form_with(url: "/#{find_client_type_by_wallet(@current_user.wallet).to_s.downcase}s/#{@current_user.code}/transaction_histories/new_debit", scope: 'debit', model: [Debit.new, TransactionHistory.new]) do |form| %>
+  <% if @debit.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@debit.errors.count, "error") %> prohibited this @debit from being saved:</h2>
+
+      <ul>
+        <% @debit.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-md-8 mb-4">
+      <div class="card mb-4">
+        <div class="card-header py-3">
+          <h5 class="mb-0">Debit details</h5>
+        </div>
+        <div class="card-body">
+          <form>
+            <!-- 2 column grid layout with text inputs for the first and last names -->
+            <div class="row mb-4">
+              <div class="col">
+                <div class="form-outline">
+                  <%= form.hidden_field :owner_id, value: @current_user.code %>
+                  <%= form.hidden_field :sender_id, value: @current_user.wallet.address %>
+                  <%= form.label :receiver_id, :class => 'form-label' %>
+                  <%= form.select :receiver_id, [['Topup', 'topup']], {include_blank: false}, :class => 'form-control' %>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-outline">
+                  <%= form.label :amount, :class => 'form-label' %>
+                  <%= form.text_field :amount, :class => 'form-control' %>
+                </div>
+              </div>
+            </div>
+
+            <!-- Text input -->
+            <div class="form-outline mb-4">
+              <%= form.label :description, :class => 'form-label' %>
+              <%= form.text_field :description, :class => 'form-control' %>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Simpan</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<%= link_to "Back to #{@current_user.name} transaction histories", "/#{find_client_type_by_wallet(@current_user.wallet).to_s.downcase}s/#{@current_user.code}/transaction_histories", class: "btn btn-secondary" %>
+</section>
+<!-- Debit form -->
