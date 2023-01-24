@@ -17,119 +17,136 @@ RSpec.describe "/transaction_histories", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # TransactionHistory. As you add validations to TransactionHistory, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+  let(:random) {
+    SecureRandom.alphanumeric
+  }
+  
+  let(:user) {
+    User.create!(name: "User Test-#{random}", email: "user_test-#{random}@test.com")
   }
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+  let(:stock) {
+    Stock.create!(name: "Stock Test-#{random}", email: "stock_test-#{random}@test.com")
   }
 
-  describe "GET /index" do
+  let(:team) {
+    Team.create!(name: "Team Test-#{random}", email: "team_test-#{random}@test.com")
+  }
+
+  let(:params_attributes) {
+    {
+      amount: 12345,
+      owner_id: user.code,
+      sender_id: user.wallet.address,
+      receiver_id: team.wallet.address,
+      description: ""
+    }
+  }
+
+  def user_send_to_team
+    user.wallet.update(balance: 100000)
+  end
+
+  describe "GET user transaction history#index" do
     it "renders a successful response" do
-      TransactionHistory.create! valid_attributes
-      get transaction_histories_url
+      get user_transaction_histories_url(user.code)
       expect(response).to be_successful
     end
   end
 
-  describe "GET /show" do
+  describe "GET team transaction history#index" do
     it "renders a successful response" do
-      transaction_history = TransactionHistory.create! valid_attributes
-      get transaction_history_url(transaction_history)
+      get team_transaction_histories_url(team.code)
       expect(response).to be_successful
     end
   end
 
-  describe "GET /new" do
+  describe "GET stock transaction history#index" do
     it "renders a successful response" do
-      get new_transaction_history_url
+      get stock_transaction_histories_url(stock.code)
       expect(response).to be_successful
     end
   end
 
-  describe "GET /edit" do
+  describe "GET user transaction history#debit" do
     it "renders a successful response" do
-      transaction_history = TransactionHistory.create! valid_attributes
-      get edit_transaction_history_url(transaction_history)
+      get debit_user_transaction_histories_url(user.code)
+      expect(response).to be_successful
+    end
+  end
+
+  describe "GET team transaction history#debit" do
+    it "renders a successful response" do
+      get debit_team_transaction_histories_url(team.code)
+      expect(response).to be_successful
+    end
+  end
+
+  describe "GET Stock transaction history#debit" do
+    it "renders a successful response" do
+      get debit_stock_transaction_histories_url(stock.code)
       expect(response).to be_successful
     end
   end
 
   describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new TransactionHistory" do
+    context "with valid credit parameters" do
+      it "creates a credit TransactionHistory" do
+        user_send_to_team
         expect {
-          post transaction_histories_url, params: { transaction_history: valid_attributes }
-        }.to change(TransactionHistory, :count).by(1)
+          post new_credit_user_transaction_histories_path(user.code), params: { credit: params_attributes }
+        }.to change(Credit, :count).by(1)
       end
 
-      it "redirects to the created transaction_history" do
-        post transaction_histories_url, params: { transaction_history: valid_attributes }
-        expect(response).to redirect_to(transaction_history_url(TransactionHistory.last))
+      it "redirects to root_path" do
+        user_send_to_team
+
+        post new_credit_user_transaction_histories_path(user.code), params: { credit: params_attributes }
+
+        expect(response).to redirect_to(user_transaction_histories_path(user.code))
+      end
+    end
+
+    context "with valid credit parameters" do
+      it "creates a withdrawal TransactionHistory" do
+        user_send_to_team
+        params_attributes[:receiver_id] = "withdrawal"
+        expect {
+          post new_credit_user_transaction_histories_path(user.code), params: { credit: params_attributes }
+        }.to change(Credit, :count).by(1)
+      end
+
+      it "redirects to user_transaction_histories_path" do
+        user_send_to_team
+        params_attributes[:receiver_id] = "withdrawal"
+        post new_credit_user_transaction_histories_path(user.code), params: { credit: params_attributes }
+        expect(response).to redirect_to(user_transaction_histories_path(user.code))
+      end
+    end
+
+    context "with valid debit parameters" do
+      it "creates a withdrawal TransactionHistory" do
+        user_send_to_team
+        params_attributes[:receiver_id] = "topup"
+        expect {
+          post new_debit_user_transaction_histories_path(user.code), params: { debit: params_attributes }
+        }.to change(Debit, :count).by(1)
+      end
+
+      it "redirects to user_transaction_histories_path" do
+        user_send_to_team
+        params_attributes[:receiver_id] = "topup"
+        post new_debit_user_transaction_histories_path(user.code), params: { debit: params_attributes }
+        expect(response).to redirect_to(user_transaction_histories_path(user.code))
       end
     end
 
     context "with invalid parameters" do
-      it "does not create a new TransactionHistory" do
-        expect {
-          post transaction_histories_url, params: { transaction_history: invalid_attributes }
-        }.to change(TransactionHistory, :count).by(0)
+      it "renders a response with 302" do
+        params_attributes[:amount] = -1
+        post new_credit_user_transaction_histories_path(user.code), params: { credit: params_attributes }
+        expect(response).to have_http_status(:found)
       end
-
-    
-      it "renders a response with 422 status (i.e. to display the 'new' template)" do
-        post transaction_histories_url, params: { transaction_history: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-    
-    end
-  end
-
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested transaction_history" do
-        transaction_history = TransactionHistory.create! valid_attributes
-        patch transaction_history_url(transaction_history), params: { transaction_history: new_attributes }
-        transaction_history.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the transaction_history" do
-        transaction_history = TransactionHistory.create! valid_attributes
-        patch transaction_history_url(transaction_history), params: { transaction_history: new_attributes }
-        transaction_history.reload
-        expect(response).to redirect_to(transaction_history_url(transaction_history))
-      end
-    end
-
-    context "with invalid parameters" do
-    
-      it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        transaction_history = TransactionHistory.create! valid_attributes
-        patch transaction_history_url(transaction_history), params: { transaction_history: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-    
-    end
-  end
-
-  describe "DELETE /destroy" do
-    it "destroys the requested transaction_history" do
-      transaction_history = TransactionHistory.create! valid_attributes
-      expect {
-        delete transaction_history_url(transaction_history)
-      }.to change(TransactionHistory, :count).by(-1)
-    end
-
-    it "redirects to the transaction_histories list" do
-      transaction_history = TransactionHistory.create! valid_attributes
-      delete transaction_history_url(transaction_history)
-      expect(response).to redirect_to(transaction_histories_url)
     end
   end
 end

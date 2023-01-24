@@ -17,13 +17,22 @@ RSpec.describe "/stocks", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Stock. As you add validations to Stock, be sure to
   # adjust the attributes here as well.
+  let(:random) {
+    SecureRandom.alphanumeric
+  }
+  
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {email: "stock-test-#{random}1@test.com", name: "Stock Test-#{random}1"}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {email: "", name: ""}
   }
+
+  before(:context) do
+    stock   = Stock.create!(email: "stock-test-#{SecureRandom.alphanumeric}x@test.com", name: "Stock Test-#{SecureRandom.alphanumeric}x")
+    @stock  = stock
+  end
 
   describe "GET /index" do
     it "renders a successful response" do
@@ -35,14 +44,15 @@ RSpec.describe "/stocks", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
-      stock = Stock.create! valid_attributes
-      get stock_url(stock)
+      Stock.create! valid_attributes
+      get stock_url(@stock.code)
       expect(response).to be_successful
     end
   end
 
   describe "GET /new" do
     it "renders a successful response" do
+      Stock.create! valid_attributes
       get new_stock_url
       expect(response).to be_successful
     end
@@ -50,8 +60,8 @@ RSpec.describe "/stocks", type: :request do
 
   describe "GET /edit" do
     it "renders a successful response" do
-      stock = Stock.create! valid_attributes
-      get edit_stock_url(stock)
+      Stock.create! valid_attributes
+      get edit_stock_url(@stock.code)
       expect(response).to be_successful
     end
   end
@@ -66,7 +76,7 @@ RSpec.describe "/stocks", type: :request do
 
       it "redirects to the created stock" do
         post stocks_url, params: { stock: valid_attributes }
-        expect(response).to redirect_to(stock_url(Stock.last))
+        expect(response).to redirect_to(stock_url(Stock.last.code))
       end
     end
 
@@ -89,29 +99,28 @@ RSpec.describe "/stocks", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {email: "stock-test-#{random}-update@test.com", name: "Stock Test-#{random}-update"}
       }
 
       it "updates the requested stock" do
         stock = Stock.create! valid_attributes
-        patch stock_url(stock), params: { stock: new_attributes }
+        patch stock_url(stock.code), params: { stock: new_attributes }
         stock.reload
         skip("Add assertions for updated state")
       end
 
       it "redirects to the stock" do
         stock = Stock.create! valid_attributes
-        patch stock_url(stock), params: { stock: new_attributes }
+        patch stock_url(stock.code), params: { stock: new_attributes }
         stock.reload
-        expect(response).to redirect_to(stock_url(stock))
+        expect(response).to redirect_to(stock_url(stock.code))
       end
     end
 
     context "with invalid parameters" do
     
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        stock = Stock.create! valid_attributes
-        patch stock_url(stock), params: { stock: invalid_attributes }
+        patch stock_url(@stock.code), params: { stock: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     
@@ -120,15 +129,14 @@ RSpec.describe "/stocks", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested stock" do
-      stock = Stock.create! valid_attributes
+      stock = Stock.create!(email: "stock-test-#{random}3@test.com", name: "Stock Test-#{random}3")
       expect {
-        delete stock_url(stock)
+        delete stock_url(stock.code)
       }.to change(Stock, :count).by(-1)
     end
 
     it "redirects to the stocks list" do
-      stock = Stock.create! valid_attributes
-      delete stock_url(stock)
+      delete stock_url(@stock.code)
       expect(response).to redirect_to(stocks_url)
     end
   end
