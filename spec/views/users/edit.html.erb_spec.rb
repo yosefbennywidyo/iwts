@@ -1,8 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "users/edit", type: :view do
+  let(:random) {
+    SecureRandom.alphanumeric
+  }
+
   let(:user) {
-    User.create!()
+    User.create!(name: "User Test-#{random}", email: "user_test-#{random}@test.com")
   }
 
   before(:each) do
