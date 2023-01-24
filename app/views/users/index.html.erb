@@ -1,14 +1,15 @@
-<p style="color: green"><%= notice %></p>
+<div class="col">
+  <h1>Users</h1>
 
-<h1>Users</h1>
-
-<div id="users">
-  <% @users.each do |user| %>
-    <%= render user %>
-    <p>
-      <%= link_to "Show this user", user %>
-    </p>
-  <% end %>
+  <div id="users">
+    <% @users.each do |user| %>
+      <%= render user %>
+      <p>
+        <%= link_to "Show #{user.name}", user_path(user.code), class: "btn btn-info" %>
+        <%= link_to "Use #{user.name} to create transaction", user_transaction_histories_path(user.code), class: "btn btn-success" %>
+      </p>
+    <% end %>
+  </div>
+  <%= link_to "New user", new_user_path, class: "btn btn-primary" %>
+  <%= render "transaction_histories/go_to_clients_button" %>
 </div>
-
-<%= link_to "New user", new_user_path %>
