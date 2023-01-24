@@ -25,7 +25,7 @@ class StocksController < ApplicationController
 
     respond_to do |format|
       if @stock.save
-        format.html { redirect_to stock_url(@stock), notice: "Stock was successfully created." }
+        format.html { redirect_to stock_url(@stock.code), notice: "Stock was successfully created." }
         format.json { render :show, status: :created, location: @stock }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class StocksController < ApplicationController
   def update
     respond_to do |format|
       if @stock.update(stock_params)
-        format.html { redirect_to stock_url(@stock), notice: "Stock was successfully updated." }
+        format.html { redirect_to stock_url(@stock.code), notice: "Stock was successfully updated." }
         format.json { render :show, status: :ok, location: @stock }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -60,11 +60,11 @@ class StocksController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_stock
-      @stock = Stock.find(params[:id])
+      @stock = Stock.find_by_code(params[:code])
     end
 
     # Only allow a list of trusted parameters through.
     def stock_params
-      params.fetch(:stock, {})
+      params.fetch(:stock, {}).permit(:name, :email, :code)
     end
 end
