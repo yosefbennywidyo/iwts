@@ -1,10 +1,10 @@
-<p style="color: green"><%= notice %></p>
+<div class="col">
+  <%= render @team %>
 
-<%= render @team %>
-
-<div>
-  <%= link_to "Edit this team", edit_team_path(@team) %> |
-  <%= link_to "Back to teams", teams_path %>
-
-  <%= button_to "Destroy this team", @team, method: :delete %>
+  <div>
+    <%= link_to "Edit this team", edit_team_path(@team.code), class: "btn btn-primary" %>
+    <%= link_to "Back to teams", teams_path, class: "btn btn-secondary" %>
+    <p>
+    <%= button_to "Destroy this team", @team, method: :delete, class: "btn btn-danger" %>
+  </div>
 </div>

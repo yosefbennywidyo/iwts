@@ -1,14 +1,15 @@
-<p style="color: green"><%= notice %></p>
+<div class="col">
+  <h1>Teams</h1>
 
-<h1>Teams</h1>
-
-<div id="teams">
-  <% @teams.each do |team| %>
-    <%= render team %>
-    <p>
-      <%= link_to "Show this team", team %>
-    </p>
-  <% end %>
+  <div id="teams">
+    <% @teams.each do |team| %>
+      <%= render team %>
+      <p>
+        <%= link_to "Show #{team.name}", team_path(team.code), class: "btn btn-info" %>
+        <%= link_to "Use #{team.name} to create transaction", team_transaction_histories_path(team.code), class: "btn btn-success" %>
+      </p>
+    <% end %>
+  </div>
+  <%= link_to "New team", new_team_path, class: "btn btn-primary" %>
+  <%= render "transaction_histories/go_to_clients_button" %>
 </div>
-
-<%= link_to "New team", new_team_path %>
