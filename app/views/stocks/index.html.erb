@@ -1,14 +1,15 @@
-<p style="color: green"><%= notice %></p>
+<div class="col">
+  <h1>Stocks</h1>
 
-<h1>Stocks</h1>
-
-<div id="stocks">
-  <% @stocks.each do |stock| %>
-    <%= render stock %>
-    <p>
-      <%= link_to "Show this stock", stock %>
-    </p>
-  <% end %>
+  <div id="stocks">
+    <% @stocks.each do |stock| %>
+      <%= render stock %>
+      <p>
+        <%= link_to "Show #{stock.name}", stock_path(stock.code), class: "btn btn-info" %>
+        <%= link_to "Use #{stock.name} to create transaction", stock_transaction_histories_path(stock.code), class: "btn btn-success" %>
+      </p>
+    <% end %>
+  </div>
+  <%= link_to "New stock", new_stock_path, class: "btn btn-primary" %>
+  <%= render "transaction_histories/go_to_clients_button" %>
 </div>
-
-<%= link_to "New stock", new_stock_path %>
