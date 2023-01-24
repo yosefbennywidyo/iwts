@@ -1,8 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "teams/edit", type: :view do
+  let(:random) {
+    SecureRandom.alphanumeric
+  }
+
   let(:team) {
-    Team.create!()
+    Team.create!(name: "Team Test-#{random}", email: "team_test-#{random}@test.com")
   }
 
   before(:each) do
