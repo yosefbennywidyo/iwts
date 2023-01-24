@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :users, :teams, :stocks, param: :code do
+  concern :transaction_historyable do
     resources :transaction_histories, param: :number, only: [:index] do
       collection do
         get 'debit', controller: 'transaction_histories', action: 'debit'
@@ -9,6 +9,11 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :users, :teams, :stocks, param: :code do
+    concerns :transaction_historyable
+  end
+  
   get '*path' => redirect('/')
   root 'home#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
