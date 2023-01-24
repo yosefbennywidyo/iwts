@@ -9,10 +9,17 @@ class Credit < TransactionHistory
     ActiveRecord::Base.transaction do
       sender_wallet = Wallets::WalletFinder.call(self.sender_id)
 
-      receiver_wallet = Wallets::WalletFinder.call(self.receiver_id)
-      receiver_wallet.update(balance: receiver_wallet.balance + (self.amount * -1))
-      sender_wallet.update(balance: sender_wallet.balance - (self.amount * -1))
+      if self.receiver_id == "withdrawal"
+        receiver_wallet = Wallets::WalletFinder.call(self.sender_id)
+        
+        receiver_wallet.update(balance: receiver_wallet.balance + self.amount)
+      else
+        receiver_wallet = Wallets::WalletFinder.call(self.receiver_id)
 
+        receiver_wallet.update(balance: receiver_wallet.balance + (self.amount * -1))
+        sender_wallet.update(balance: sender_wallet.balance - (self.amount * -1))
+      end
+      
       unless self.receiver_id == "withdrawal" || self.receiver_id == 'topup'
         debit_amount = (self.amount * -1).to_d
         

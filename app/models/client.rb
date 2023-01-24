@@ -24,4 +24,8 @@ class Client < ApplicationRecord
     
     self.create_wallet(owner_id: "#{owner_id}", address: "#{address}")
   end
+
+  def balance
+    ActionController::Base.helpers.number_to_currency(self.transaction_histories.sum(:amount), unit: "$")
+  end
 end
